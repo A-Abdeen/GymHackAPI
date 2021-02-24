@@ -6,6 +6,7 @@ const {
   userDelete,
   userUpdate,
 } = require("../controllers/userController"); // To access the functions that are called by the routes.
+const upload = require("../middleware/multer"); // ONLY IF IMAGE UPLOAD IS INVOLVED
 
 // METHODS
 const router = express.Router(); // mini app to handle all routing system for main app

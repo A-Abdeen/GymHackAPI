@@ -10,9 +10,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     access: {
       type: DataTypes.ENUM,
-      values: ["admin", "user", "guest"],
+      values: ["admin", "user"],
     },
-
+    bookings: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      validate: {
+        max: 3,
+      },
+    },
     // password: { type: DataTypes.STRING, allowNull: false },
     email: {
       type: DataTypes.STRING,

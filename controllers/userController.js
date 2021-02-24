@@ -38,6 +38,9 @@ exports.userDelete = async (req, res, next) => {
 //------------- Update user
 exports.userUpdate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     await req.user.update(req.body);
     res.status(200).json(req.user);
   } catch (err) {

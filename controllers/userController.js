@@ -1,49 +1,36 @@
 // IMPORTS
+const bcrypt = require("bcrypt"); // to hash the password
 const { User } = require("../db/models/"); //connects to database
+const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 
 // CONTROLLERS
-//------------- users list
-exports.userList = async (req, res, next) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err) {
-    next(err);
-  }
-};
 
-//------------- Create user
-exports.userCreate = async (req, res, next) => {
+exports.signUp = async (req, res, next) => {
+  const { password } = req.body;
   try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
+    const hashedPassowrd = await bcrypt.hash(password, 10);
+    req.body.password = hashedPassowrd;
     const newUser = await User.create(req.body);
-    res.status(201).json(newUser);
-  } catch (err) {
-    next(err);
+
+    const payload = {
+      id: newUser.id,
+      username: newUser.username,
+      exp: Date.now() + JWT_EXPIRATION_MS,
+    };
+    const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
+    res.status(201).json({ token });
+  } catch (error) {
+    next(error);
   }
 };
 
-//------------- Delete user
-exports.userDelete = async (req, res, next) => {
-  try {
-    await req.user.destroy();
-    res.status(204).end();
-  } catch (err) {
-    next(err);
-  }
-};
-
-//------------- Update user
-exports.userUpdate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    await req.user.update(req.body);
-    res.status(200).json(req.user);
-  } catch (err) {
-    next(err);
-  }
+exports.signIn = async (req, res, next) => {
+  const { user } = req;
+  const payload = {
+    id: user.id,
+    username: user.username,
+    exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
+  };
+  const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
+  res.json({ token });
 };

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     access: {
       type: DataTypes.ENUM,
-      values: ["admin", "user"],
+      values: ["admin", "member"],
     },
     bookings: {
       type: DataTypes.INTEGER,
@@ -21,14 +21,13 @@ module.exports = (sequelize, DataTypes) => {
         max: 3,
       },
     },
-    // password: { type: DataTypes.STRING, allowNull: false },
+    password: { type: DataTypes.STRING, allowNull: false },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: { isEmail: true },
     },
-    // timestamps: false,
     slug: {
       type: DataTypes.STRING,
       unique: true,

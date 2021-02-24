@@ -54,6 +54,17 @@ db.Class.belongsTo(db.Gym, {
   foreignKey: "gymId",
 });
 
+db.ClassType.hasMany(db.Class, {
+  as: "classes",
+  foreignKey: "classTypeId",
+  allowNull: false,
+});
+
+db.Class.belongsTo(db.ClassType, {
+  as: "classType",
+  foreignKey: "classTypeId",
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

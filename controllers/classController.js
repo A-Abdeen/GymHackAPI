@@ -1,11 +1,28 @@
 // IMPORTS
-const { Class } = require("../db/models/"); //connects to database
+const { Class, Gym } = require("../db/models/"); //connects to database
 
 // CONTROLLERS
+
+//------------- param to fetch classes by ID
+exports.fetchClass = async (classId, next) => {
+  try {
+    const foundClass = await Class.findByPk(classId);
+    return foundClass;
+  } catch (err) {
+    next(err);
+  }
+};
 //------------- classes list
 exports.classList = async (req, res, next) => {
   try {
-    const classes = await Class.findAll();
+    const classes = await Class.findAll({
+      attributes: { exclude: ["gymId", "createdAt", "updatedAt"] },
+      include: {
+        model: Gym,
+        as: "gym",
+        attributes: ["name"],
+      },
+    });
     res.json(classes);
   } catch (err) {
     next(err);
@@ -15,19 +32,6 @@ exports.classList = async (req, res, next) => {
 //------------- class detail
 exports.classDetail = async (req, res, next) => {
   res.json(req.class);
-};
-
-//------------- Create class
-exports.classCreate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    const newClass = await Class.create(req.body);
-    res.status(201).json(newClass);
-  } catch (err) {
-    next(err);
-  }
 };
 
 //------------- Delete class

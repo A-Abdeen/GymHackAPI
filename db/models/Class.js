@@ -1,5 +1,7 @@
+const SequelizeSlugify = require("sequelize-slugify");
+
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("Class", {
+  const Class = sequelize.define("Class", {
     title: {
       type: DataTypes.STRING,
     },
@@ -18,5 +20,13 @@ module.exports = (sequelize, DataTypes) => {
     date: {
       type: DataTypes.DATE,
     },
+    slug: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
   });
+  SequelizeSlugify.slugifyModel(Class, {
+    source: ["title"],
+  });
+  return Class;
 };

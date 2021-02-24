@@ -40,6 +40,20 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+// RELATIONS
+
+//-----------------Gym has many classes
+db.Gym.hasMany(db.Class, {
+  as: "classes",
+  foreignKey: "gymId",
+  allowNull: false,
+});
+
+db.Class.belongsTo(db.Gym, {
+  as: "gym",
+  foreignKey: "gymId",
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

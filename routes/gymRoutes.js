@@ -1,10 +1,13 @@
 // IMPORTS
 const express = require("express"); // app to run backend
 const {
+  fetchGym,
   gymCreate,
   gymList,
   gymDelete,
+  classCreate,
 } = require("../controllers/gymController"); // To access the functions that are called by the routes.
+
 const upload = require("../middleware/multer"); // ONLY IF IMAGE UPLOAD IS INVOLVED
 
 // METHODS
@@ -33,5 +36,8 @@ router.post("/", gymCreate);
 
 //------------- Delete gym
 router.delete("/:gymId", gymDelete);
+
+//---//------------- Create class
+router.post("/:gymId/classes", classCreate);
 
 module.exports = router;

@@ -1,11 +1,11 @@
 // IMPORTS
 const express = require("express"); // app to run backend
 const {
-  classCreate,
+  fetchClass,
   classList,
   classDelete,
-  classUpdate,
   classDetail,
+  classUpdate,
 } = require("../controllers/classController"); // To access the functions that are called by the routes.
 const upload = require("../middleware/multer"); // ONLY IF IMAGE UPLOAD IS INVOLVED
 
@@ -33,13 +33,10 @@ router.get("/", classList);
 //------------- class detail
 router.get("/:classId", classDetail);
 
-//------------- Create class
-router.post("/", classCreate);
-
 //------------- Delete class
 router.delete("/:classId", classDelete);
 
-//------------- Update class
-router.put("/:classId", classUpdate);
+//---//------------- Update class
+router.put("/:classId/", classUpdate);
 
 module.exports = router;

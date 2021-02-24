@@ -1,5 +1,7 @@
+const SequelizeSlugify = require("sequelize-slugify");
+
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("User", {
+  const User = sequelize.define("User", {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,5 +29,13 @@ module.exports = (sequelize, DataTypes) => {
       validate: { isEmail: true },
     },
     // timestamps: false,
+    slug: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
   });
+  SequelizeSlugify.slugifyModel(User, {
+    source: ["username"],
+  });
+  return User;
 };

@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         msg: "Username already exists",
       },
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     access: {
       type: DataTypes.ENUM,
       values: ["admin", "member"],
@@ -21,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         max: 3,
       },
     },
-    password: { type: DataTypes.STRING, allowNull: false },
     email: {
       type: DataTypes.STRING,
       allowNull: false,

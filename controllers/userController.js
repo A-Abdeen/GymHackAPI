@@ -2,6 +2,7 @@
 const bcrypt = require("bcrypt"); // to hash the password
 const { User } = require("../db/models/"); //connects to database
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+const jwt = require("jsonwebtoken");
 
 // CONTROLLERS
 
